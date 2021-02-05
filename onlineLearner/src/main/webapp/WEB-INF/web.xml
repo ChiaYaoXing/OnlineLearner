@@ -67,6 +67,16 @@
 		<servlet-name>viewMain_servlet</servlet-name>
 		<url-pattern>/view_main</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>viewCourse_servlet</servlet-name>
+		<servlet-class>de.unidue.inf.is.viewCourseServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>viewCourse_servlet</servlet-name>
+		<url-pattern>/view_course</url-pattern>
+	</servlet-mapping>
 	
 	<servlet>
 		<servlet-name>onlineLearner_servlet</servlet-name>

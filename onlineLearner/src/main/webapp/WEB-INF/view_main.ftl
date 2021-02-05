@@ -104,23 +104,24 @@
 <body>
 <div class ="app">
     <h1 class="maintitle"> OnlineLearner </h1>
-    <h3 class="subtittle"> Meine Kurse </h3>
+    <h3 class="subtitle"> Meine Kurse </h3>
     <div class="carousel">
     <div class="carousel-row">
         <#list courses as course>
             <div class = "carousel-tile">
-                <form action="view_main" method="post">
+                <form action="view_course" method="post">
 
                 <button type="submit">
                 <input type="hidden" name="courseID" value=${course.kid}>
                 <h4>${course.kid}  ${course.name}</h4>
                 <p>${course.description}</p>
                 </button>
+                </form>
             </div>
         </#list>
         </div>
     </div>
-    <h3 class="subtittle"> Verfügbare Kurse </h3>
+    <h3 class="subtitle"> Verfügbare Kurse </h3>
     <div class="carousel">
     <div class="carousel-row">
         <#list availableCourses as aCourse>
