@@ -9,7 +9,7 @@
 
   /* Tile Dimensions */
   --carousel-tile-spacing: 10px;
-  --carousel-tile-width:   250px;
+  --carousel-tile-width:   300px;
   --carousel-tile-height:  calc(var(--carousel-tile-width) / (16 / 9));
 
   /* Growth Factor */
@@ -89,13 +89,25 @@
       -webkit-transform: scale(var(--carousel-growth-factor));
       transform: scale(var(--carousel-growth-factor));
       opacity: var(--carousel-normal-opacity);
+
 }
 
 /* Content Tile on Hover */
 .carousel-tile:hover ~ .carousel-tile {
       -webkit-transform: translate3d(var(--carousel-offset-right), 0, 0);
       transform: translate3d(var(--carousel-offset-right), 0, 0);
+      box-shadow: 10px 10px 5px grey;
 }
+
+.btn{
+    width: 100%;
+    height: 100%;
+    border-radius: 4%;
+    background: rgba(0, 0, 0, 0.02);
+    cursor: hand;
+}
+
+
 
 
 
@@ -110,9 +122,9 @@
         <#list courses as course>
             <div class = "carousel-tile">
                 <form action="view_course" method="post">
-
-                <button type="submit">
+                <button class="btn" type="submit">
                 <input type="hidden" name="courseID" value=${course.kid}>
+                <input type="hidden" name="isRegistered" value="true">
                 <h4>${course.kid}  ${course.name}</h4>
                 <p>${course.description}</p>
                 </button>
@@ -125,14 +137,22 @@
     <div class="carousel">
     <div class="carousel-row">
         <#list availableCourses as aCourse>
-            <div class="carousel-tile">${aCourse.kid} ${aCourse.name}</div>
+            <div class="carousel-tile">
+            <form action="view_course" method="post">
+                <button class="btn" type="submit">
+                <input type="hidden" name="courseID" value=${aCourse.kid}>
+                <input type="hidden" name="isRegistered" value="false">
+                <h4>${aCourse.kid}  ${aCourse.name}</h4>
+                <p>${aCourse.description}</p>
+                </button>
+                </form>
+            </div>
         </#list>
 
     </div>
     </div>
 
 </div>
-
 
 
 </body>

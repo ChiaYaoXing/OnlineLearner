@@ -4,13 +4,18 @@ public final class Submission {
     private short sid;
     private String text;
 
+
+
+
+    public void setSid(short sid) {
+        this.sid = sid;
+    }
+
+
     public short getsid() {
         return sid;
     }
 
-    public void setsid(short sid) {
-        this.sid = sid;
-    }
 
     public Submission(String text) {
         this.text = text;

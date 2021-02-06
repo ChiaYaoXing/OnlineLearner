@@ -32,7 +32,6 @@ public final class UserStore implements Closeable {
             preparedStatement.setString(1, user.getEmail());
             ResultSet r = preparedStatement.executeQuery();
             boolean res = r.next();
-            System.out.println("i'm here" + res);
             return res;
         }
         catch (SQLException e){
@@ -84,6 +83,23 @@ public final class UserStore implements Closeable {
             if(r.next()){
                 user.setUid(r.getShort(1));
             }
+        }
+        catch (SQLException e){
+            throw new StoreException(e);
+        }
+    }
+
+    public User getUser(short uid) throws StoreException{
+        try{
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("SELECT * FROM dbp019.benutzer WHERE bnummer = ?");
+            preparedStatement.setShort(1, uid);
+            ResultSet r = preparedStatement.executeQuery();
+            User user =null;
+            if(r.next()){
+                user = new User(r.getString(3), r.getString(2), r.getShort(1));
+            }
+            return user;
         }
         catch (SQLException e){
             throw new StoreException(e);
