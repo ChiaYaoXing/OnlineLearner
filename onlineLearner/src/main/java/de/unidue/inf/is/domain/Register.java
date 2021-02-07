@@ -13,6 +13,24 @@ public final class Register {
         this.timestamp = timestamp;
     }
 
+    public Register(short uid, short kid) {
+        this.uid = uid;
+        this.kid = kid;
+        timestamp = null;
+    }
+
+    public void setUid(short uid) {
+        this.uid = uid;
+    }
+
+    public void setKid(short kid) {
+        this.kid = kid;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
     public short getUid() {
         return uid;
     }

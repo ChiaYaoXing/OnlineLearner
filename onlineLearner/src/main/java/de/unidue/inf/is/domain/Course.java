@@ -1,5 +1,7 @@
 package de.unidue.inf.is.domain;
 
+import java.util.Objects;
+
 public final class Course {
     private short kid;
     private String name;
@@ -71,5 +73,9 @@ public final class Course {
 
     public short getCid() {
         return cid;
+    }
+    public boolean validate(String key){
+        return Objects.equals(key, passwort);
+
     }
 }

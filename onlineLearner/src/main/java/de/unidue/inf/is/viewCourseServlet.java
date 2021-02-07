@@ -42,11 +42,11 @@ public final class viewCourseServlet extends HttpServlet {
         String registered = request.getParameter("isRegistered");
         User requestUser =(User) request.getSession().getAttribute("user");
 
+
         if (null != kid && !kid.isEmpty()) {
 
             short courseID = Short.parseShort(kid);
             boolean isRegistered = Boolean.parseBoolean(registered);
-            System.out.println("Course " + kid + " is " + registered);
 
 
             try(CourseStore courseStore = new CourseStore(); UserStore userStore = new UserStore();
@@ -90,15 +90,16 @@ public final class viewCourseServlet extends HttpServlet {
                                 result = "Keine Abgabe";
                                 res.append(result);
                                 res.append("</td><td></td></tr>");
+                            } else {
+                                res.append(result);
+                                res.append("</td><td>");
+                                if (rate != null) {
+                                    res.append(rate.getScore());
+                                } else {
+                                    res.append("Noch keine Bewertung");
+                                }
+                                res.append("</td></tr>");
                             }
-                            res.append(result);
-                            res.append("</td><td>");
-                            if(rate != null){
-                                res.append(rate.getScore());
-                            } else{
-                                res.append("Noch keine Bewertung");
-                            }
-                            res.append("</td></tr>");
                         }
 
                 }
@@ -109,7 +110,6 @@ public final class viewCourseServlet extends HttpServlet {
                 submissionStore.complete();
                 rateStore.complete();
                 request.setAttribute("res", res.toString());
-                System.out.println(res.toString());
             } catch(Exception e){
                 throw new StoreException(e);
             }

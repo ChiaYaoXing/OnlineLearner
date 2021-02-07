@@ -32,15 +32,17 @@ public final class RegisterStore implements Closeable {
 
 
 
-    public void addRegister(Register register) throws StoreException {
+    public void addRegister(Register register) throws StoreException, IOException {
 
-        try {
+        try (CourseStore courseStore = new CourseStore()){
             PreparedStatement preparedStatement = connection
                     .prepareStatement("insert into dbp019.einschreiben (bnummer, kid) " +
                             "values (?, ?)");
             preparedStatement.setShort(1, register.getUid());
             preparedStatement.setShort(2, register.getKid());
             preparedStatement.executeUpdate();
+            courseStore.decrementFreePlace(register.getKid());
+            courseStore.complete();
         } catch (SQLException e) {
             throw new StoreException(e);
         }
