@@ -18,7 +18,6 @@ public final class RegisterStore implements Closeable {
 
     private Connection connection;
     private boolean complete;
-    private final int MAX_NUMBER = 20;
 
 
     public RegisterStore() throws StoreException {
@@ -43,6 +42,23 @@ public final class RegisterStore implements Closeable {
             preparedStatement.setShort(2, register.getKid());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
+            throw new StoreException(e);
+        }
+
+    }
+
+    public void deregister(short uid, short kid) throws StoreException, IOException{
+        String stmt = "DELETE FROM dbp019.einschreiben e WHERE e.bnummer = ? AND e.kid = ?";
+
+        try(CourseStore courseStore = new CourseStore()){
+            PreparedStatement preparedStatement = connection.prepareStatement(stmt);
+            preparedStatement.setShort(1, uid);
+            preparedStatement.setShort(2, kid);
+            courseStore.incrementFreePlace(kid);
+            courseStore.complete();
+            preparedStatement.executeUpdate();
+
+        }catch(SQLException e){
             throw new StoreException(e);
         }
 

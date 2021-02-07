@@ -84,6 +84,16 @@ public final class CourseStore implements Closeable {
         }
     }
 
+    public void incrementFreePlace(short kid) throws StoreException{
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement("Update dbp019.kurs SET freierPlaetze = freierPlaetze + 1 WHERE kid = ?");
+            preparedStatement.setShort(1, kid);
+            preparedStatement.executeUpdate();
+        }catch(SQLException e){
+            throw new StoreException(e);
+        }
+    }
+
 
 
 

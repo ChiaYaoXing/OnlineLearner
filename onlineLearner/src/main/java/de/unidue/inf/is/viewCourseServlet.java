@@ -58,12 +58,12 @@ public final class viewCourseServlet extends HttpServlet {
                 request.setAttribute("course",course);
                 request.setAttribute("isRegistered", isRegistered);
                 StringBuilder res = new StringBuilder();
-                res.append("<form action=\"new_enroll\" method=\"post\"><input type=\"hidden\" name=\"kid\" value=\"");
+                res.append("<form action=\"new_enroll\" method=\"post\"><input type=\"hidden\" name=\"kid\" value=\"").append(kid).append("\"><input type=\"hidden\" name=\"isRegister\" value=\"");
                 if(!isRegistered){
-                    res.append(kid).append("\"><button type=\"submit\">Einschreiben</button>");
+                    res.append("true").append("\"><button type=\"submit\">Einschreiben</button>");
                     res.append("</form>");
                 } else{
-                    res.append("NaN").append("\"><button type=\"submit\">Kurs Löschen</button>");
+                    res.append("false").append("\"><button type=\"submit\">Kurs Löschen</button>");
                     res.append("</form>");
                     res.append("<hr><h1>Liste der Aufgaben</h1><tr><th>Aufgabe</th><th>Meine Abgabe</th><th>Bewertungsnote</th></tr>");
                     List<Submit> submits;
