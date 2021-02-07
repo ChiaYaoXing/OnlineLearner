@@ -47,7 +47,7 @@ public final class CourseStore implements Closeable {
 
     }
 
-    public void addCid(Course course) throws StoreException{
+    public void addKid(Course course) throws StoreException{
         try{
             PreparedStatement preparedStatement = connection
                     .prepareStatement("SELECT * FROM dbp019.kurs WHERE name = ? AND beschreibungstext = ? " +

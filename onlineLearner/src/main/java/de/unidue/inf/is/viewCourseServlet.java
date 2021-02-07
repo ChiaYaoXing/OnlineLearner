@@ -69,13 +69,13 @@ public final class viewCourseServlet extends HttpServlet {
                     List<Submit> submits;
                     List<Assignment> assignments;
 
-                        assignments = assignmentStore.getAssignment(courseID);
+                        assignments = assignmentStore.getAssignments(courseID);
                         submits = submitStore.getSubmit(requestUser.getUid(), courseID);
 
                         for(Assignment a: assignments) {
-                            res.append("<tr><td><form action=\"new_assignment\" method=\"post\"><input type=\"hidden\" name=\"aid\" value=\"");
+                            res.append("<tr><td><form action=\"new_assignment\" method=\"get\"><input type=\"hidden\" name=\"aid\" value=\"");
                             res.append(a.getAid());
-                            res.append("\"><button type=\"submit\" class=\"btn\">").append(a.getName()).append("</button></form></td><td>");
+                            res.append("\"><input type=\"hidden\" name=\"kid\" value=\"").append(courseID).append("\"><button type=\"submit\" class=\"btn\">").append(a.getName()).append("</button></form></td><td>");
                             String result = null;
                             Rate rate = null;
                             for(Submit s:submits){

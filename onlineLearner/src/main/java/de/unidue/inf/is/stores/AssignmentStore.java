@@ -69,7 +69,7 @@ public final class AssignmentStore implements Closeable {
 //        }
 //    }
 
-    public List<Assignment> getAssignment(short kid) throws StoreException{
+    public List<Assignment> getAssignments(short kid) throws StoreException{
         try{
             PreparedStatement preparedStatement = connection
                     .prepareStatement("SELECT * FROM dbp019.aufgabe a WHERE a.kid = ? order by a.anummer");
@@ -80,6 +80,24 @@ public final class AssignmentStore implements Closeable {
                 assignments.add(new Assignment(kid,r.getShort(2),r.getString(3),r.getString(4) ));
             }
             return assignments;
+        }
+        catch (SQLException e){
+            throw new StoreException(e);
+        }
+    }
+
+    public Assignment getAssignment(short kid, short aid) throws StoreException{
+        try{
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("SELECT * FROM dbp019.aufgabe a WHERE a.anummer = ? AND a.kid = ?");
+            preparedStatement.setShort(1, aid);
+            preparedStatement.setShort(2, kid);
+            ResultSet r = preparedStatement.executeQuery();
+            Assignment assignment = null;
+            if (r.next()){
+                assignment = new Assignment(kid, aid, r.getString(3), r.getString(4));
+            }
+            return assignment;
         }
         catch (SQLException e){
             throw new StoreException(e);
