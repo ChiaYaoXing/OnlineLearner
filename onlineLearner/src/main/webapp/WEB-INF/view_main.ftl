@@ -153,7 +153,7 @@
     </div>
 
 </div>
-
+<a href="new_course">Neu Erstellen</a>
 
 </body>
 </html>

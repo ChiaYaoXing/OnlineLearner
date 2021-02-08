@@ -69,6 +69,7 @@ public final class newEnrollServlet extends HttpServlet {
                 if((course.validate(password) || course.getPasswort() == null) && course.isAvailable()){
                     Register register = new Register(user.getUid(), course.getKid());
                     registerStore.addRegister(register);
+                    courseStore.decrementFreePlace(course.getKid());
                     response.sendRedirect("view_main");
                 }
                 else{

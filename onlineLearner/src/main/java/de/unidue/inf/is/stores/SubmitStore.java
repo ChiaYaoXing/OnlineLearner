@@ -1,5 +1,6 @@
 package de.unidue.inf.is.stores;
 
+import de.unidue.inf.is.domain.Course;
 import de.unidue.inf.is.domain.Submission;
 import de.unidue.inf.is.domain.Submit;
 import de.unidue.inf.is.utils.DBUtil;
@@ -62,6 +63,36 @@ public final class SubmitStore implements Closeable {
             throw new StoreException(e);
         }
 
+    }
+
+    public Submit getRandomSubmit(short uid) throws StoreException, IOException{
+        try(RegisterStore registerStore = new RegisterStore()){
+            List<Course> courses = registerStore.getRegisteredCourses(uid);
+            if(courses.size() == 0) return null;
+            StringBuilder queryString = new StringBuilder();
+            queryString.append("Select * FROM dbp019.einreichen WHERE bnummer != ? AND kid = ?");
+            for(int i = courses.size();i > 1;--i ){
+                queryString.append(" or kid = ?");
+            }
+            queryString.append(" order by rand() fetch first rows only");
+            PreparedStatement preparedStatement = connection.prepareStatement(queryString.toString());
+            preparedStatement.setShort(1, uid);
+
+            int i = 2;
+            for(Course c: courses){
+                preparedStatement.setShort(i, c.getKid());
+                i += 1;
+            }
+            ResultSet r = preparedStatement.executeQuery();
+            Submit submit = null;
+            if(r.next()){
+                submit = new Submit(r.getShort(1), r.getShort(2), r.getShort(3), r.getShort(4));
+            }
+            return submit;
+
+    }catch(SQLException e){
+            throw new StoreException(e);
+        }
     }
 
     public List<Submit> getSubmit(short uid, short kid) throws StoreException{

@@ -29,7 +29,7 @@ public final class CourseStore implements Closeable {
 
 
 
-    public void addCourse(Course course) throws StoreException {
+    public void addCourse(Course course) throws StoreException,IOException {
 
             try {
                 PreparedStatement preparedStatement = connection
@@ -41,6 +41,7 @@ public final class CourseStore implements Closeable {
                 preparedStatement.setShort(4, course.getFreeplace());
                 preparedStatement.setShort(5, course.getCid());
                 preparedStatement.executeUpdate();
+                addKid(course);
             } catch (SQLException e) {
                 throw new StoreException(e);
             }
@@ -49,18 +50,24 @@ public final class CourseStore implements Closeable {
 
     public void addKid(Course course) throws StoreException{
         try{
+//            PreparedStatement preparedStatement = connection
+//                    .prepareStatement("SELECT * FROM dbp019.kurs WHERE name = ? AND beschreibungstext = ? " +
+//                            "AND einschreibeschluessel = ? AND freiePlaetze = ? AND ersteller = ?");
+//            preparedStatement.setString(1, course.getName());
+//            preparedStatement.setString(2, course.getDescription());
+//            preparedStatement.setString(3, course.getPasswort());
+//            preparedStatement.setShort(4, course.getFreeplace());
+//            preparedStatement.setShort(5, course.getCid());
+
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("SELECT * FROM dbp019.kurs WHERE name = ? AND beschreibungstext = ? " +
-                            "AND einschreibeschluessel = ? AND freiePlaetze = ? AND ersteller = ?");
+                    .prepareStatement("SELECT * FROM dbp019.kurs WHERE name = ? AND ersteller = ?");
             preparedStatement.setString(1, course.getName());
-            preparedStatement.setString(2, course.getDescription());
-            preparedStatement.setString(3, course.getPasswort());
-            preparedStatement.setShort(4, course.getFreeplace());
-            preparedStatement.setShort(5, course.getCid());
+            preparedStatement.setShort(2, course.getCid());
             ResultSet r = preparedStatement.executeQuery();
             if(r.next()){
                 course.setKid(r.getShort(1));
             }
+
         }
         catch (SQLException e){
             throw new StoreException(e);
