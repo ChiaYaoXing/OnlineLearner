@@ -4,7 +4,7 @@
 <body>
     <h1> ${course.name}</h1>
     <form action="new_enroll" method="post">
-    <h2> Einschreibeschlüssel <input type="password" name="password"><input type="hidden" name="kid" value=${course.kid}></h2>
+    ${res}<input type="hidden" name="kid" value=${course.kid}>
     <button type="submit">Einschreiben</button>
 
 

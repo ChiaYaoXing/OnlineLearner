@@ -23,6 +23,22 @@ public final class Assignment {
         return kid;
     }
 
+    public void setKid(short kid) {
+        this.kid = kid;
+    }
+
+    public void setAid(short aid) {
+        this.aid = aid;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public short getAid() {
         return aid;
     }

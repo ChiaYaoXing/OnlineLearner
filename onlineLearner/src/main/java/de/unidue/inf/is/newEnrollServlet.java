@@ -39,8 +39,16 @@ public final class newEnrollServlet extends HttpServlet {
 
 
         try (RegisterStore registerStore = new RegisterStore(); CourseStore courseStore = new CourseStore()) {
+            course = courseStore.getCourse(Short.parseShort(kid));
+            request.setAttribute("course", course);
+            if(course.getPasswort() != null){
+                res.append("<h2> Einschreibeschlüssel: <input type=\"password\" name=\"password\"></h2>");
+            } else{
+                res.append("<h2>No Password needed</h2>");
+            }
+            request.setAttribute("res", res.toString());
 
-            if (null != kid && !kid.isEmpty() && null != isRegister && !isRegister.isEmpty()) {
+            if (null != isRegister && !isRegister.isEmpty()) {
                 course = courseStore.getCourse(Short.parseShort(kid));
                 request.setAttribute("course", course);
                 if (Objects.equals("false", isRegister)) {
@@ -53,11 +61,12 @@ public final class newEnrollServlet extends HttpServlet {
 
             } else{
                 String password = request.getParameter("password");
-                course = courseStore.getCourse(Short.parseShort(kid));
-                request.setAttribute("course", course);
+//                course = courseStore.getCourse(Short.parseShort(kid));
+//                request.setAttribute("course", course);
 
 
-                if(course.validate(password) || course.getPasswort() == null){
+
+                if((course.validate(password) || course.getPasswort() == null) && course.isAvailable()){
                     Register register = new Register(user.getUid(), course.getKid());
                     registerStore.addRegister(register);
                     response.sendRedirect("view_main");

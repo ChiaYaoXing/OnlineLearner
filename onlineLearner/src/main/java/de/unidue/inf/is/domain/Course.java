@@ -76,6 +76,8 @@ public final class Course {
     }
     public boolean validate(String key){
         return Objects.equals(key, passwort);
-
+    }
+    public boolean isAvailable(){
+        return (freeplace > 0);
     }
 }

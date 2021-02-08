@@ -121,9 +121,9 @@
     <div class="carousel-row">
         <#list courses as course>
             <div class = "carousel-tile">
-                <form action="view_course" method="post">
+                <form action="view_course" method="get">
                 <button class="btn" type="submit">
-                <input type="hidden" name="courseID" value=${course.kid}>
+                <input type="hidden" name="kid" value=${course.kid}>
                 <input type="hidden" name="isRegistered" value="true">
                 <h4>${course.kid}  ${course.name}</h4>
                 <p>${course.description}</p>
@@ -138,9 +138,9 @@
     <div class="carousel-row">
         <#list availableCourses as aCourse>
             <div class="carousel-tile">
-            <form action="view_course" method="post">
+            <form action="view_course" method="get">
                 <button class="btn" type="submit">
-                <input type="hidden" name="courseID" value=${aCourse.kid}>
+                <input type="hidden" name="kid" value=${aCourse.kid}>
                 <input type="hidden" name="isRegistered" value="false">
                 <h4>${aCourse.kid}  ${aCourse.name}</h4>
                 <p>${aCourse.description}</p>

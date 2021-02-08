@@ -29,43 +29,38 @@ public final class SubmissionStore implements Closeable {
 
 
 
-//    public void addCourse(Course course) throws StoreException {
-//
-//        try {
-//            PreparedStatement preparedStatement = connection
-//                    .prepareStatement("insert into dbp019.kurs (name, beschreibungstext, einschreibeschluessel," +
-//                            " freiePlaetze, ersteller) values (?, ?, ?, ?, ?)");
-//            preparedStatement.setString(1, course.getName());
-//            preparedStatement.setString(2, course.getDescription());
-//            preparedStatement.setString(3, course.getPasswort());
-//            preparedStatement.setShort(4, course.getFreeplace());
-//            preparedStatement.setShort(5, course.getCid());
-//            preparedStatement.executeUpdate();
-//        } catch (SQLException e) {
-//            throw new StoreException(e);
-//        }
-//
-//    }
+    public Submission addSubmission(String text) throws StoreException {
 
-//    public void addCid(Course course) throws StoreException{
-//        try{
-//            PreparedStatement preparedStatement = connection
-//                    .prepareStatement("SELECT * FROM dbp019.kurs WHERE name = ? AND beschreibungstext = ? " +
-//                            "AND einschreibeschluessel = ? AND freiePlaetze = ? AND ersteller = ?");
-//            preparedStatement.setString(1, course.getName());
-//            preparedStatement.setString(2, course.getDescription());
-//            preparedStatement.setString(3, course.getPasswort());
-//            preparedStatement.setShort(4, course.getFreeplace());
-//            preparedStatement.setShort(5, course.getCid());
-//            ResultSet r = preparedStatement.executeQuery();
-//            if(r.next()){
-//                course.setKid(r.getShort(1));
-//            }
-//        }
-//        catch (SQLException e){
-//            throw new StoreException(e);
-//        }
-//    }
+        try {
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("insert into dbp019.abgabe(abgabetext) values(?)");
+            preparedStatement.setString(1, text);
+            preparedStatement.executeUpdate();
+            return addsid(text);
+
+        } catch (SQLException e) {
+            throw new StoreException(e);
+        }
+
+    }
+
+    public Submission addsid(String text) throws StoreException{
+        try{
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("SELECT * FROM dbp019.abgabe WHERE abgabetext = ?");
+            preparedStatement.setString(1, text);
+
+            ResultSet r = preparedStatement.executeQuery();
+            Submission submission = null;
+            if(r.next()){
+                submission = new Submission(r.getShort(1), text);
+            }
+            return submission;
+        }
+        catch (SQLException e){
+            throw new StoreException(e);
+        }
+    }
 
     public Submission getSubmission(short sid) throws StoreException{
         try{

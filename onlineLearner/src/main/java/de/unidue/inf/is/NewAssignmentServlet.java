@@ -2,8 +2,12 @@ package de.unidue.inf.is;
 
 import de.unidue.inf.is.domain.Assignment;
 import de.unidue.inf.is.domain.Course;
+import de.unidue.inf.is.domain.Submission;
+import de.unidue.inf.is.domain.User;
 import de.unidue.inf.is.stores.AssignmentStore;
 import de.unidue.inf.is.stores.CourseStore;
+import de.unidue.inf.is.stores.SubmissionStore;
+import de.unidue.inf.is.stores.SubmitStore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -44,7 +48,7 @@ public final class NewAssignmentServlet extends HttpServlet {
             Assignment assignment = assignmentStore.getAssignment(kid, aid);
 
             request.setAttribute("course", course);
-            request.setAttribute("assignments", assignment);
+            request.setAttribute("assignment", assignment);
             courseStore.complete();
             assignmentStore.complete();
         }
@@ -56,11 +60,28 @@ public final class NewAssignmentServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
 
+        String text = request.getParameter("text");
+        short kid = Short.parseShort(request.getParameter("kid"));
+        short aid = Short.parseShort(request.getParameter("aid"));
+        User user = (User) request.getSession().getAttribute("user");
 
+
+        try(SubmitStore submitStore = new SubmitStore(); SubmissionStore submissionStore = new SubmissionStore()){
+            if(submitStore.isSubmitted(user.getUid(), kid, aid)){
+                request.setAttribute("isError", "true");
+            }
+            else{
+                Submission submission = submissionStore.addSubmission(text);
+                submitStore.addSubmit(user.getUid(), kid, aid, submission);
+
+            }
+            request.getRequestDispatcher("view_course?kid=" + kid + "&isRegistered=true").forward(request, response);
+            submitStore.complete();
+            submissionStore.complete();
+        }
 
 
 //        request.getRequestDispatcher("onlineLearner").forward(request, response);
-        response.sendRedirect("view_main");
 //        doGet(request, response);
     }
 }

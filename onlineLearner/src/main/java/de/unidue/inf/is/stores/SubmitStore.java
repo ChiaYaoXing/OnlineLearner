@@ -1,5 +1,6 @@
 package de.unidue.inf.is.stores;
 
+import de.unidue.inf.is.domain.Submission;
 import de.unidue.inf.is.domain.Submit;
 import de.unidue.inf.is.utils.DBUtil;
 
@@ -31,22 +32,37 @@ public final class SubmitStore implements Closeable {
 
 
 
-//    public void addSubmission(User user, Submission submission) throws StoreException {
-//
-//        try {
-//            PreparedStatement preparedStatement = connection
-//                    .prepareStatement("insert into dbp019.einreichen (bnummer, kid, anummer," +
-//                            " aid) values (?, ?, ?, ?)");
-//            preparedStatement.setShort(1, user.getUid());
-//            preparedStatement.setShort(2, submission.getAssignment().getKid());
-//            preparedStatement.setShort(3, submission.getAssignment().getAid());
-//            preparedStatement.setShort(4, submission.getsid());
-//            preparedStatement.executeUpdate();
-//        } catch (SQLException e) {
-//            throw new StoreException(e);
-//        }
-//
-//    }
+    public boolean isSubmitted(short uid, short kid, short aid) throws StoreException {
+
+        try {
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("Select * from dbp019.einreichen WHERE bnummer = ? AND kid = ? AND anummer = ?");
+            preparedStatement.setShort(1, uid);
+            preparedStatement.setShort(2, kid);
+            preparedStatement.setShort(3, aid);
+            ResultSet r = preparedStatement.executeQuery();
+            return r.next();
+        } catch (SQLException e) {
+            throw new StoreException(e);
+        }
+
+    }
+
+    public void addSubmit(short uid, short kid, short aid, Submission submission) throws StoreException {
+
+        try {
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("Insert into dbp019.einreichen(bnummer, kid, anummer, aid) values(?, ?, ?, ?)");
+            preparedStatement.setShort(1, uid);
+            preparedStatement.setShort(2, kid);
+            preparedStatement.setShort(3, aid);
+            preparedStatement.setShort(1, submission.getsid());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new StoreException(e);
+        }
+
+    }
 
     public List<Submit> getSubmit(short uid, short kid) throws StoreException{
         try{
