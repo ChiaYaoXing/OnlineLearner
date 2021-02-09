@@ -71,6 +71,20 @@ public final class RateStore implements Closeable {
         }
     }
 
+    public void addRate(Rate rate) throws StoreException{
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement("Insert into dbp019.bewerten(bnummer, aid, note, kommentar) values(?, ?, ?, ?)");
+            preparedStatement.setShort(1,rate.getUid());
+            preparedStatement.setShort(2, rate.getSid());
+            preparedStatement.setShort(3, rate.getScore());
+            preparedStatement.setString(4, rate.getComment());
+            preparedStatement.executeUpdate();
+
+        }catch(SQLException e){
+            throw new StoreException(e);
+        }
+    }
+
 
 
 

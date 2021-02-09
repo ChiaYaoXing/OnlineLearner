@@ -25,6 +25,9 @@ public final class viewCourseServlet extends HttpServlet {
         if(request.getAttribute("isError") == null){
             request.setAttribute("isError", "false");
         }
+        if(request.getAttribute("errorText") == null){
+            request.setAttribute("errorText", "No Error");
+        }
 
 
 
@@ -86,6 +89,7 @@ public final class viewCourseServlet extends HttpServlet {
                             res.append("</td></form></tr>");
                         }
                     }
+                    res.append("<a href=\"assess?kid=").append(courseID).append("\"><button><h2>Assess an Assignment</h2></button></a>");
 
                 }
                 submitStore.complete();

@@ -69,6 +69,7 @@ public final class NewAssignmentServlet extends HttpServlet {
         try(SubmitStore submitStore = new SubmitStore(); SubmissionStore submissionStore = new SubmissionStore()){
             if(submitStore.isSubmitted(user.getUid(), kid, aid)){
                 request.setAttribute("isError", "true");
+                request.setAttribute("errorText","Aufgabe ist schon eingereicht!");
             }
             else{
                 Submission submission = submissionStore.addSubmission(text);

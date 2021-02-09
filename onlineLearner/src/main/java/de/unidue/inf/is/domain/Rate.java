@@ -18,6 +18,22 @@ public class Rate {
         return uid;
     }
 
+    public void setUid(short uid) {
+        this.uid = uid;
+    }
+
+    public void setSid(short sid) {
+        this.sid = sid;
+    }
+
+    public void setScore(short score) {
+        this.score = score;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     public short getSid() {
         return sid;
     }

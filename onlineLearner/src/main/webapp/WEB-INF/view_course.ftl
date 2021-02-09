@@ -13,7 +13,7 @@
 
 <script>
 if('${isError}' == 'true'){
-    alert("Aufgabe ist schon eingereicht!");
+    alert("${errorText}");
 }
 </script>
 </body>

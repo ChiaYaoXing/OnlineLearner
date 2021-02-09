@@ -70,7 +70,7 @@ public final class newEnrollServlet extends HttpServlet {
                     Register register = new Register(user.getUid(), course.getKid());
                     registerStore.addRegister(register);
                     courseStore.decrementFreePlace(course.getKid());
-                    response.sendRedirect("view_main");
+                    response.sendRedirect("view_course?kid="+course.getKid()+"&isRegistered=true");
                 }
                 else{
                     doGet(request, response);

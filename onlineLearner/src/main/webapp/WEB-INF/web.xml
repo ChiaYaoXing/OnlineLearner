@@ -59,6 +59,16 @@
 	</servlet-mapping>
 
 	<servlet>
+		<servlet-name>assess_servlet</servlet-name>
+		<servlet-class>de.unidue.inf.is.assessServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>assess_servlet</servlet-name>
+		<url-pattern>/assess</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
 		<servlet-name>newEnroll_servlet</servlet-name>
 		<servlet-class>de.unidue.inf.is.newEnrollServlet</servlet-class>
 	</servlet>

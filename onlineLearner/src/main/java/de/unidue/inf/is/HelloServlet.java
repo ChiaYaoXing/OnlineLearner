@@ -48,6 +48,7 @@ public final class HelloServlet extends HttpServlet {
         String name = request.getParameter("name");
         String email = request.getParameter("email");
 
+
         if (null != name && null != email && !name.isEmpty() && !email.isEmpty()) {
 
 //            synchronized (userList) {

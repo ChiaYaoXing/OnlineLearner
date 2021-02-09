@@ -94,7 +94,7 @@ public final class RegisterStore implements Closeable {
     public List<Course> getNonRegisteredCourses(short uid) throws StoreException, IOException{
 
         try(CourseStore courseStore = new CourseStore()){
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT distinct e.kid FROM dbp019.einschreiben e " +
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT distinct e.kid FROM dbp019.kurs e " +
                     "WHERE e.kid not in (select e1.kid from dbp019.einschreiben e1 where e1.bnummer = ?)");
             // change sql to not =
             preparedStatement.setShort(1, uid);
